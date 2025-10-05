@@ -15,7 +15,6 @@ class Media{
     this.isPlaying = false,
   });
 
-  // copyWith method to create a new Device with updated values
   Media copyWith({
     String? title,
     String? description,

@@ -41,7 +41,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
           newStatus = DeviceStatus.connect;
           break;
       }
-      // Replace device with updated status (immutability)
       devices[index] = currentDevice.copyWith(status: newStatus);
     });
   }
@@ -54,17 +53,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
     });
   }
 
-  // IconData _getMediaButtonIcon(MediaType type) {
-  //   switch (type) {
-  //     case MediaType.music:
-  //       return Icons.music_note_rounded;
-  //     case MediaType.movie:
-  //       return Icons.local_movies_rounded;
-  //     case MediaType.dialogue:
-  //       return Icons.record_voice_over_rounded;
-  //   }
-  // }
-
   IconData _getMediaType(MediaType type) {
     switch (type) {
       case MediaType.music:
@@ -73,7 +61,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
       case MediaType.movie:
         return Icons.local_movies_rounded;
       case MediaType.dialogue:
-        // return Icons.record_voice_over_rounded;
         return Icons.voice_chat;
 
     }
@@ -165,7 +152,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   : Color(0xFF030211),
               fgcolor: isPlaying
                   ? Color(0xFF030211)
-                  // ? Color.fromARGB(255, 119, 119, 119)
                   : Colors.white,
               onPressed: () => _togglePlay(index),
             );
