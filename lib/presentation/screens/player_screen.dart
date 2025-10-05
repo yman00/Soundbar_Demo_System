@@ -65,10 +65,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
   //   }
   // }
 
-  IconData _getMediaIcon(MediaType type) {
+  IconData _getMediaType(MediaType type) {
     switch (type) {
       case MediaType.music:
-        return Icons.music_note_rounded;
+        return 
+        Icons.music_note_rounded;
       case MediaType.movie:
         return Icons.local_movies_rounded;
       case MediaType.dialogue:
@@ -77,6 +78,17 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
     }
   }
+
+  (String title, Color bgColor, Color fgColor) _getChipData(MediaType type) {
+  switch (type) {
+    case MediaType.music:
+      return ('Music', Colors.green.shade100, Colors.green.shade900);
+    case MediaType.movie:
+      return ('Movie', Colors.lightBlue.shade100, Colors.blue.shade900);
+    case MediaType.dialogue:
+      return ('Dialogue', Colors.orange.shade100, Colors.deepOrange);
+  }
+}
 
   
  @override
@@ -134,10 +146,15 @@ class _PlayerScreenState extends State<PlayerScreen> {
           itemBuilder: (context, index) {
             final item = media[index];
             final isPlaying = item.isPlaying;
+            final (chipTitle, chipBgColor, chipFgColor) = _getChipData(item.mediaIcon);
 
             return MediaContentContainer(
-              mediaIcons: _getMediaIcon(item.mediaIcon),
-              mediaName: item.title,
+              mediaIcons: _getMediaType(item.mediaIcon),
+              mediaTitle: item.title,
+              chipTitle: chipTitle,
+              chipIcon: _getMediaType(item.mediaIcon),
+              chipBgColor: chipBgColor,
+              chipFgColor: chipFgColor,
               mediaDesc: item.description,
               mediaDuration: item.duration,
               buttonIcons:

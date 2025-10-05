@@ -1,7 +1,8 @@
+
 import 'package:flutter/material.dart';
 
 class MediaContentContainer extends StatelessWidget {
-      final String mediaName;
+      final String mediaTitle;
       final String mediaDesc;
       final String mediaDuration;
       final IconData mediaIcons;
@@ -10,9 +11,13 @@ class MediaContentContainer extends StatelessWidget {
       final String buttonText;
       final Color bgcolor;
       final Color fgcolor;
+      final String chipTitle;
+      final IconData chipIcon;
+      final Color chipBgColor;
+      final Color chipFgColor;
 
   const MediaContentContainer({
-    required this.mediaName,
+    required this.mediaTitle,
     required this.mediaDesc,
     required this.mediaDuration,
     required this.mediaIcons,
@@ -21,6 +26,10 @@ class MediaContentContainer extends StatelessWidget {
     required this.buttonText,
     required this.bgcolor,
     required this.fgcolor,
+    required this.chipTitle,
+    required this.chipIcon,
+    required this.chipBgColor,
+    required this.chipFgColor,
     super.key
     });
 
@@ -56,9 +65,68 @@ class MediaContentContainer extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                mediaName,
-                style: TextStyle(fontSize: 13),
+              Row(
+                children: [
+                  Text(
+                    mediaTitle,
+                    style: TextStyle(fontSize: 13),
+                  ),
+                  SizedBox(width: 15),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2.0),
+                      color: chipBgColor
+                      // color: Color.fromARGB(219, 244, 203, 147)
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          chipIcon,
+                          size: 11,
+                          color: chipFgColor,
+                          // color: Color.fromARGB(219, 175, 104, 6),
+                        ),
+                        SizedBox(width: 3),
+                        Text(
+                          chipTitle,
+                          // 'Chip',
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w600,
+                            color: chipFgColor
+                            // color: Color.fromARGB(219, 175, 104, 6)
+                            ),
+                        ),
+                      ],
+                    )
+                  )
+                  // Container(
+                  //   padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(2.0),
+                  //     color: Color.fromARGB(219, 244, 203, 147)
+                  //   ),
+                  //   child: Row(
+                  //     children: [
+                  //       Icon(
+                  //         Icons.voice_chat,
+                  //         size: 12,
+                  //         color: Color.fromARGB(219, 175, 104, 6),
+                  //       ),
+                  //       SizedBox(width: 3),
+                  //       Text(
+                  //         'Chip',
+                  //         style: TextStyle(
+                  //           fontSize: 10,
+                  //           fontWeight: FontWeight.w600,
+                  //           color: Color.fromARGB(219, 175, 104, 6)
+                  //           ),
+                  //       ),
+                  //     ],
+                  //   )
+                  // )
+                ],
               ),
               Spacer(),
               Text(
