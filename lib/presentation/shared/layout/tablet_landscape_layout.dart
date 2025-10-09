@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/tabletWidgets/custom_appbar.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/tabletWidgets/custom_footer.dart';
 
-class TabletLayout extends StatelessWidget {
+class TabletLandscapeLayout extends StatelessWidget {
   final Widget connectionContent;
   final Widget mediaPlayerContent;
   final Widget mediaContent;
+  final Widget contentLibraryMenu;
 
-  const TabletLayout({
+  const TabletLandscapeLayout({
     super.key,
     required this.connectionContent,
     required this.mediaPlayerContent,
     required this.mediaContent,
+    required this.contentLibraryMenu,
   });
 
   @override
@@ -58,11 +60,14 @@ class TabletLayout extends StatelessWidget {
                               padding: const EdgeInsets.all(10.0),
                               child:  Column(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Icon(Icons.bluetooth_rounded),
-                                      Text('Connected Soundbars')
-                                    ],
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.bluetooth_rounded),
+                                        Text('Connected Soundbars')
+                                      ],
+                                    ),
                                   ),
                                   connectionContent,
                                 ],
@@ -110,13 +115,11 @@ class TabletLayout extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child:  Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                Text('Demo Content Library'),
-                                SizedBox(width: 1,),
-                              ],
-                            ),
+                            Text('Demo Content Library'),
+                            SizedBox(height: 5),
+                            contentLibraryMenu,
                             mediaContent
                           ],
                         ),

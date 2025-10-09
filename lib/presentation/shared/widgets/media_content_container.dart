@@ -49,7 +49,7 @@ class MediaContentContainer extends StatelessWidget {
           ),
         ],
       ),
-      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 2.0),
+      margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
       padding: EdgeInsets.symmetric(horizontal: 13.0, vertical: 10.0),
       child: Row(
         children: [
