@@ -3,6 +3,7 @@ import 'package:soudbar_kiosk_app/data/sample_media_content.dart';
 import 'package:soudbar_kiosk_app/data/sample_paired_devices.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/layout/base_layout.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/available_devices_container.dart';
+import 'package:soudbar_kiosk_app/presentation/shared/widgets/content_library_menu.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/media_content_container.dart';
 
 class PlayerScreen extends StatefulWidget {
@@ -69,9 +70,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
   (String title, Color bgColor, Color fgColor) _getChipData(MediaType type) {
   switch (type) {
     case MediaType.music:
-      return ('Music', Colors.green.shade100, Colors.green.shade900);
+      return ('Music', Colors.green.shade100, Colors.green.shade600);
     case MediaType.movie:
-      return ('Movie', Colors.lightBlue.shade100, Colors.blue.shade900);
+      return ('Movie', Colors.lightBlue.shade100, Colors.blue.shade600);
     case MediaType.dialogue:
       return ('Dialogue', Colors.orange.shade100, Colors.deepOrange);
   }
@@ -83,7 +84,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
     return BaseLayout(
       connectionContent: Expanded(
         child: ListView.builder(
-          padding: EdgeInsets.symmetric(vertical: 8),
           itemCount: devices.length,
           itemBuilder: (context, index) {
             final device = devices[index];
@@ -126,9 +126,22 @@ class _PlayerScreenState extends State<PlayerScreen> {
         child: Text('Media Player / Controllers'),
       ),
 
+      contentLibraryMenu: ContentLibrabryMenu(
+        allContent: () {
+          
+        },
+        movieContent: () {
+          
+        },
+        musicContent: () {
+          
+        },
+        dialogueContent: () {
+          
+        },
+      ),
       mediaContent: Expanded(
         child: ListView.builder(
-          padding: EdgeInsets.symmetric(vertical: 8),
           itemCount: media.length,
           itemBuilder: (context, index) {
             final item = media[index];

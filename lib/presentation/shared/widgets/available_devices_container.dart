@@ -35,7 +35,7 @@ class AvailableDeviceContainer extends StatelessWidget {
             ),
           ],
         ),
-        margin: EdgeInsets.symmetric(horizontal: 0, vertical: 2.0),
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
         padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
         child: Row(
           children: [
@@ -66,11 +66,6 @@ class AvailableDeviceContainer extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: bgcolor,
                   foregroundColor: fgcolor,
-                  // backgroundColor: Color(0xFF030211),
-                  // foregroundColor: Colors.white,
-                  //offline
-                  // backgroundColor: const Color.fromARGB(255, 203, 203, 203),
-                  // foregroundColor: const Color.fromARGB(255, 119, 119, 119),
                   padding: EdgeInsets.symmetric(horizontal: 2, vertical: 3),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
