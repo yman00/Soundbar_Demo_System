@@ -4,6 +4,9 @@ import 'package:soudbar_kiosk_app/data/sample_paired_devices.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/layout/base_layout.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/available_devices_container.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/content_library_menu.dart';
+import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/media_player_controllers.dart';
+// import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/controller_seekbar.dart';
+// import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/controller_buttons.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/media_content_container.dart';
 
 class PlayerScreen extends StatefulWidget {
@@ -18,13 +21,27 @@ class PlayerScreen extends StatefulWidget {
 class _PlayerScreenState extends State<PlayerScreen> {
   late List<Device> devices;
   late List<Media> media;
+  Media? activeMedia;
+
 
   @override
   void initState() {
     super.initState();
     devices = List<Device>.from(sampleDevices);
-    media = List<Media>.from(sampleMedia);
+    // media = List<Media>.from(sampleMedia);
 
+    // final allMediaSamples = [
+    //   ...sampleMusicList,
+    //   ...sampleVideoList,
+    //   ...sampleDialogueList,
+    // ];
+    // media = allMediaSamples;
+
+    media = [
+      ...sampleMusicList,
+      ...sampleVideoList,
+      ...sampleDialogueList,
+    ];
   }
 
   void _toggleStatus(int index) {
@@ -48,9 +65,17 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   void _togglePlay(int index) {
     setState(() {
-      final selectedMedia = media[index];
-      final newStatus = !selectedMedia.isPlaying;
-      media[index] = selectedMedia.copyWith(isPlaying: newStatus);
+      final selected = media[index];
+      final newStatus = !selected.isPlaying;
+
+      // Reset all other media items
+      media = media.map((m) => m.copyWith(isPlaying: false)).toList();
+
+      // Update the selected media
+      media[index] = selected.copyWith(isPlaying: newStatus);
+      
+      // Set or unset the active media
+      activeMedia = newStatus ? media[index] : null;
     });
   }
 
@@ -121,9 +146,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
         ),
       ),
 
-        
-      mediaPlayerContent: Center(
-        child: Text('Media Player / Controllers'),
+      mediaPlayerContent: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        child: activeMedia != null
+          ? MediaPlayerSection(media: activeMedia!)
+          : Center(child: Text('Select media to play')),
       ),
 
       contentLibraryMenu: ContentLibrabryMenu(
@@ -158,8 +185,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
               mediaDesc: item.description,
               mediaDuration: item.duration,
               buttonIcons:
-                  isPlaying ? Icons.pause_rounded : Icons. play_arrow_rounded,
-              buttonText: isPlaying ? 'Pause' : 'Play',
+                  isPlaying ? Icons.stop_rounded : Icons. play_arrow_rounded,
+              buttonText: isPlaying ? 'Stop' : 'Play',
               bgcolor: isPlaying
                   ? Color.fromARGB(255, 226, 226, 226)
                   : Color(0xFF030211),

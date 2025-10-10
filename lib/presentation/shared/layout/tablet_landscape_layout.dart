@@ -28,10 +28,8 @@ class TabletLandscapeLayout extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CustomAppbar(
-              title: 'Soundbar Demo System', 
-              subTitle: 'Experience premium audio quality - Compare and test out Bluetooth soundbars'
-              // title: 'TESTING FLUTTER', 
-              // subTitle: 'testing flutter testing flutter testing flutter'
+              title: 'Sony Logo', 
+              subTitle: 'Experience Sony premium audio quality.'
               ),
               SizedBox(height: 10,),
               Expanded(
@@ -43,6 +41,7 @@ class TabletLandscapeLayout extends StatelessWidget {
                     Column(
                       children: [
                         Expanded(
+                          flex: 3,
                           child:  Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -65,7 +64,7 @@ class TabletLandscapeLayout extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Icon(Icons.bluetooth_rounded),
-                                        Text('Connected Soundbars')
+                                        Text('Connected Sony Devices')
                                       ],
                                     ),
                                   ),
@@ -77,6 +76,7 @@ class TabletLandscapeLayout extends StatelessWidget {
                         ),
                         SizedBox(height: 10,),
                         Expanded(
+                          flex: 5,
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,

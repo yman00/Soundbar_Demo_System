@@ -101,31 +101,6 @@ class MediaContentContainer extends StatelessWidget {
                       ],
                     )
                   )
-                  // Container(
-                  //   padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(2.0),
-                  //     color: Color.fromARGB(219, 244, 203, 147)
-                  //   ),
-                  //   child: Row(
-                  //     children: [
-                  //       Icon(
-                  //         Icons.voice_chat,
-                  //         size: 12,
-                  //         color: Color.fromARGB(219, 175, 104, 6),
-                  //       ),
-                  //       SizedBox(width: 3),
-                  //       Text(
-                  //         'Chip',
-                  //         style: TextStyle(
-                  //           fontSize: 10,
-                  //           fontWeight: FontWeight.w600,
-                  //           color: Color.fromARGB(219, 175, 104, 6)
-                  //           ),
-                  //       ),
-                  //     ],
-                  //   )
-                  // )
                 ],
               ),
               Spacer(),
