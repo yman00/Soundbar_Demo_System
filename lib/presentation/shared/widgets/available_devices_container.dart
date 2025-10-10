@@ -41,44 +41,51 @@ class AvailableDeviceContainer extends StatelessWidget {
           children: [
             Icon(Icons.volume_up_rounded),
             SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  deviceName,
-                  style: TextStyle(fontSize: 15),
-                ),
-                Text(
-                  deviceFeat,
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.grey
-                  ),
-                ),
-              ],
+Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            deviceName,
+            style: const TextStyle(fontSize: 15),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+          Text(
+            deviceFeat,
+            style: const TextStyle(fontSize: 10, color: Colors.grey),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ],
+      ),
+    ),
+
+    /// This aligns the button properly without being pushed off
+    SizedBox(
+      width: 68,
+      height: 25,
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: bgcolor,
+            foregroundColor: fgcolor,
+            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 3),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
             ),
-            Spacer(),
-            SizedBox(
-              width: 68,
-              height: 25,
-              child: ElevatedButton(
-                onPressed: onPressed,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: bgcolor,
-                  foregroundColor: fgcolor,
-                  padding: EdgeInsets.symmetric(horizontal: 2, vertical: 3),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-                child: Text(
-                  connectionButton,
-                  style: TextStyle(
-                    fontSize: 10,
-                  ),
-                ),
-              ),
-            )
+          ),
+          child: Text(
+            connectionButton,
+            style: const TextStyle(fontSize: 10),
+          ),
+        ),
+      ),
+    ),
+
           ],
         )
       );
