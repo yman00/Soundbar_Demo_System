@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:soudbar_kiosk_app/data/sample_media_content.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/controller_buttons.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/controller_seekbar.dart';
+import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/controller_volume.dart';
 import 'package:video_player/video_player.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -20,6 +21,8 @@ class _MediaPlayerSectionState extends State<MediaPlayerSection> {
 
   Duration _position = Duration.zero;
   Duration _duration = Duration.zero;
+
+  double volumeValue = 50.0; // default to 50 (can range 0–100)
 
   @override
   void initState() {
@@ -96,29 +99,25 @@ class _MediaPlayerSectionState extends State<MediaPlayerSection> {
       children: [
         Expanded(
           child: widget.media.mediaIcon == MediaType.movie
-              ? (_videoController != null && _videoController!.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio: _videoController!.value.aspectRatio,
-                      child: VideoPlayer(_videoController!),
-                    )
-                  : const Center(child: CircularProgressIndicator()))
-              : Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black12,
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  child: const Center(
-                    child: 
-                    // Text(
-                    //   'Album Photo',
-                    //   style: TextStyle(fontSize: 18),
-                    // ),
-                    Icon(
-                      Icons.music_note_rounded,
-                      size: 100,
-                    ),
-                  ),
+            ? (_videoController != null && _videoController!.value.isInitialized
+              ? AspectRatio(
+                  aspectRatio: _videoController!.value.aspectRatio,
+                  child: VideoPlayer(_videoController!),
+                )
+              : const Center(child: CircularProgressIndicator()))
+            : Container(
+              decoration: BoxDecoration(
+                color: Colors.black12,
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              child: const Center(
+                child: 
+                Icon(
+                  Icons.music_note_rounded,
+                  size: 100,
                 ),
+              ),
+            ),
         ),
         const SizedBox(height: 10),
         Text(
@@ -139,7 +138,34 @@ class _MediaPlayerSectionState extends State<MediaPlayerSection> {
         if (_audioPlayer != null)
           PlayControls(audioPlayer: _audioPlayer!)
         else if (_videoController != null)
-          PlayControls(videoController: _videoController!)
+          PlayControls(videoController: _videoController!),
+        VolumeSlider(
+          value: volumeValue,
+          max: 100,
+          onChanged: (value) {
+            setState(() {
+              volumeValue = value;
+            });
+
+            final normalizedVolume = value / 100;
+
+            if (_audioPlayer != null) {
+              _audioPlayer!.setVolume(normalizedVolume);
+            } else if (_videoController != null) {
+              _videoController!.setVolume(normalizedVolume);
+            }
+          },
+          onChangeEnd: (value) {
+            final normalizedVolume = value / 100;
+            print('Final volume set to: $normalizedVolume');
+
+            if (_audioPlayer != null) {
+              _audioPlayer!.setVolume(normalizedVolume);
+            } else if (_videoController != null) {
+              _videoController!.setVolume(normalizedVolume);
+            }
+          },
+        )
       ],
     );
   }

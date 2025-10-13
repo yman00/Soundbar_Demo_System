@@ -39,6 +39,7 @@ class SeekBar extends StatelessWidget {
           min: 0.0,
           max: max,
           value: value,
+          activeColor: Color(0xFF030211),
           onChanged: (newValue) {
             if (onChanged != null) {
               onChanged!(Duration(milliseconds: newValue.round()));

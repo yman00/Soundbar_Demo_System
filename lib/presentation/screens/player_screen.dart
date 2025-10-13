@@ -150,7 +150,32 @@ class _PlayerScreenState extends State<PlayerScreen> {
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         child: activeMedia != null
           ? MediaPlayerSection(media: activeMedia!)
-          : Center(child: Text('Select media to play')),
+          : Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center, 
+              children: [
+                Icon(
+                  Icons.local_movies_rounded,
+                  size: 80,
+                  color: Colors.grey[500],
+                  ),
+                Text(
+                  'Video display active',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.grey[500],
+                  ),
+                ),
+                Text(
+                  'Music player pause',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey[500],
+                  ),
+                )
+              ],
+            )
+          ),
       ),
 
       contentLibraryMenu: ContentLibrabryMenu(

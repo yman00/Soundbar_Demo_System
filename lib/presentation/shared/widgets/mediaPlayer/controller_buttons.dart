@@ -46,6 +46,7 @@ class PlayControls extends StatelessWidget {
         IconButton(
           iconSize: 40,
           icon: const Icon(Icons.skip_previous),
+          color: Color(0xFF030211),
           onPressed: isAudio ? audioPlayer!.hasPrevious ? audioPlayer!.seekToPrevious : null : null,
         ),
 
@@ -53,6 +54,7 @@ class PlayControls extends StatelessWidget {
         IconButton(
           iconSize: 36,
           icon: const Icon(Icons.replay_10),
+          color: Color(0xFF030211),
           onPressed: () async {
             final position = isAudio
                 ? audioPlayer!.position
@@ -73,6 +75,7 @@ class PlayControls extends StatelessWidget {
         IconButton(
           iconSize: 64,
           icon: Icon(isPlaying ? Icons.pause_circle : Icons.play_circle),
+          color: Color(0xFF030211),
           onPressed: onTogglePlayPause,
         ),
 
@@ -80,6 +83,7 @@ class PlayControls extends StatelessWidget {
         IconButton(
           iconSize: 36,
           icon: const Icon(Icons.forward_10),
+          color: Color(0xFF030211),
           onPressed: () async {
             final duration = isAudio
                 ? audioPlayer!.duration ?? Duration.zero
@@ -104,6 +108,7 @@ class PlayControls extends StatelessWidget {
         IconButton(
           iconSize: 40,
           icon: const Icon(Icons.skip_next),
+          color: Color(0xFF030211),
           onPressed: isAudio ? audioPlayer!.hasNext ? audioPlayer!.seekToNext : null : null,
         ),
       ],
