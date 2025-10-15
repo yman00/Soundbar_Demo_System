@@ -5,9 +5,10 @@ import 'package:soudbar_kiosk_app/presentation/shared/layout/base_layout.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/available_devices_container.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/content_library_menu.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/media_player_controllers.dart';
+import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/video_player.dart';
+import 'package:soudbar_kiosk_app/presentation/shared/widgets/media_content_container.dart';
 // import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/controller_seekbar.dart';
 // import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/controller_buttons.dart';
-import 'package:soudbar_kiosk_app/presentation/shared/widgets/media_content_container.dart';
 
 class PlayerScreen extends StatefulWidget {
   // static const routeName = '/PlayerDemo';
@@ -106,6 +107,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
   
  @override
   Widget build(BuildContext context) {
+    final isVideo = activeMedia?.mediaIcon == MediaType.movie;
+
     return BaseLayout(
       connectionContent: Expanded(
         child: ListView.builder(
@@ -147,36 +150,34 @@ class _PlayerScreenState extends State<PlayerScreen> {
       ),
 
       mediaPlayerContent: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-        child: activeMedia != null
-          ? MediaPlayerSection(media: activeMedia!)
-          : Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, 
-              children: [
-                Icon(
-                  Icons.local_movies_rounded,
-                  size: 80,
-                  color: Colors.grey[500],
-                  ),
-                Text(
-                  'Video display active',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.grey[500],
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        child: !isVideo && activeMedia != null
+            ? MediaPlayerSection(media: activeMedia!)
+            : Padding(
+                padding: EdgeInsetsGeometry.symmetric(vertical: 70.0),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.local_movies_rounded,
+                        size: 80,
+                        color: Colors.grey[500],
+                      ),
+                      Text(
+                        'Video display active',
+                        style: TextStyle(fontSize: 20, color: Colors.grey[500]),
+                      ),
+                      Text(
+                        'Music player paused',
+                        style: TextStyle(fontSize: 15, color: Colors.grey[500]),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  'Music player pause',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey[500],
-                  ),
-                )
-              ],
-            )
-          ),
+              )
       ),
+
 
       contentLibraryMenu: ContentLibrabryMenu(
         allContent: () {
@@ -193,7 +194,17 @@ class _PlayerScreenState extends State<PlayerScreen> {
         },
       ),
       mediaContent: Expanded(
-        child: ListView.builder(
+        child: isVideo && activeMedia != null
+          ? ChewieVideoPlayerSection(
+              media: activeMedia!,
+              onExit: () {
+                setState(() {
+                  activeMedia = null;
+                  media = media.map((m) => m.copyWith(isPlaying: false)).toList();
+                });
+              },
+            )
+          : ListView.builder(
           itemCount: media.length,
           itemBuilder: (context, index) {
             final item = media[index];

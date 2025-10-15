@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:soudbar_kiosk_app/data/sample_media_content.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/controller_buttons.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/controller_seekbar.dart';
 import 'package:soudbar_kiosk_app/presentation/shared/widgets/mediaPlayer/controller_volume.dart';
-import 'package:video_player/video_player.dart';
-import 'package:just_audio/just_audio.dart';
 
 class MediaPlayerSection extends StatefulWidget {
   final Media media;
@@ -16,129 +15,111 @@ class MediaPlayerSection extends StatefulWidget {
 }
 
 class _MediaPlayerSectionState extends State<MediaPlayerSection> {
-  VideoPlayerController? _videoController;
-  AudioPlayer? _audioPlayer;
+  late AudioPlayer _audioPlayer;
 
   Duration _position = Duration.zero;
   Duration _duration = Duration.zero;
 
-  double volumeValue = 50.0; // default to 50 (can range 0–100)
+  double volumeValue = 50.0; // default to 50 (0–100)
 
   @override
   void initState() {
     super.initState();
-    _initPlayer();
+    _initAudioPlayer();
   }
 
   @override
   void didUpdateWidget(MediaPlayerSection oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.media.url != widget.media.url) {
-      _disposePlayer();
-      _initPlayer();
+      _disposeAudioPlayer();
+      _initAudioPlayer();
     }
   }
 
-  void _initPlayer() {
-    if (widget.media.mediaIcon == MediaType.movie) {
-      _videoController = VideoPlayerController.network(widget.media.url)
-        ..initialize().then((_) {
-          setState(() {
-            _duration = _videoController!.value.duration;
-          });
-          _videoController?.play();
+  void _initAudioPlayer() {
+    _audioPlayer = AudioPlayer();
+    _audioPlayer.setUrl(widget.media.url).then((_) {
+      _audioPlayer.play();
+    });
 
-          // ✅ Add this listener for updating _position
-          _videoController!.addListener(() {
-            if (mounted && _videoController!.value.isInitialized) {
-              setState(() {
-                _position = _videoController!.value.position;
-              });
-            }
-          });
-        });
-    } else {
-      _audioPlayer = AudioPlayer();
-      _audioPlayer!.setUrl(widget.media.url).then((_) {
-        _audioPlayer!.play();
-      });
+    _audioPlayer.positionStream.listen((pos) {
+      if (mounted) {
+        setState(() => _position = pos);
+      }
+    });
 
-      _audioPlayer!.positionStream.listen((pos) {
-        if (mounted) {
-          setState(() => _position = pos);
-        }
-      });
-
-      _audioPlayer!.durationStream.listen((dur) {
-        if (mounted) {
-          setState(() => _duration = dur ?? Duration.zero);
-        }
-      });
-    }
+    _audioPlayer.durationStream.listen((dur) {
+      if (mounted) {
+        setState(() => _duration = dur ?? Duration.zero);
+      }
+    });
   }
 
-  void _disposePlayer() {
-    _videoController?.pause();
-    _videoController?.dispose();
-    _videoController = null;
-
-    _audioPlayer?.stop();
-    _audioPlayer?.dispose();
-    _audioPlayer = null;
+  void _disposeAudioPlayer() {
+    _audioPlayer.stop();
+    _audioPlayer.dispose();
   }
 
   @override
   void dispose() {
-    _disposePlayer();
+    _disposeAudioPlayer();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Expanded(
-          child: widget.media.mediaIcon == MediaType.movie
-            ? (_videoController != null && _videoController!.value.isInitialized
-              ? AspectRatio(
-                  aspectRatio: _videoController!.value.aspectRatio,
-                  child: VideoPlayer(_videoController!),
-                )
-              : const Center(child: CircularProgressIndicator()))
-            : Container(
-              decoration: BoxDecoration(
-                color: Colors.black12,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: const Center(
-                child: 
-                Icon(
-                  Icons.music_note_rounded,
-                  size: 100,
+        // Static music note UI
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 226, 226, 226),
+                  borderRadius: BorderRadius.circular(5)
                 ),
+                padding: EdgeInsets.all(25.0),
+                child: Icon(Icons.music_note_rounded),
               ),
-            ),
+              SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.media.title,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    'mediaDesc',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.grey
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-        const SizedBox(height: 10),
-        Text(
-          widget.media.title, 
-          style: Theme.of(context).textTheme.titleMedium
-        ),
+
+        // Seek bar
         SeekBar(
           currentPosition: _position,
           totalDuration: _duration,
           onChanged: (newPos) {
-            if (_audioPlayer != null) {
-              _audioPlayer!.seek(newPos);
-            } else {
-              _videoController?.seekTo(newPos);
-            }
+            _audioPlayer.seek(newPos);
           },
         ),
-        if (_audioPlayer != null)
-          PlayControls(audioPlayer: _audioPlayer!)
-        else if (_videoController != null)
-          PlayControls(videoController: _videoController!),
+
+        // Play/pause/skip controls
+        PlayControls(audioPlayer: _audioPlayer),
+
+        // Volume slider
         VolumeSlider(
           value: volumeValue,
           max: 100,
@@ -146,28 +127,13 @@ class _MediaPlayerSectionState extends State<MediaPlayerSection> {
             setState(() {
               volumeValue = value;
             });
-
-            final normalizedVolume = value / 100;
-
-            if (_audioPlayer != null) {
-              _audioPlayer!.setVolume(normalizedVolume);
-            } else if (_videoController != null) {
-              _videoController!.setVolume(normalizedVolume);
-            }
+            _audioPlayer.setVolume(value / 100);
           },
           onChangeEnd: (value) {
-            final normalizedVolume = value / 100;
-            print('Final volume set to: $normalizedVolume');
-
-            if (_audioPlayer != null) {
-              _audioPlayer!.setVolume(normalizedVolume);
-            } else if (_videoController != null) {
-              _videoController!.setVolume(normalizedVolume);
-            }
+            _audioPlayer.setVolume(value / 100);
           },
-        )
+        ),
       ],
     );
   }
 }
-

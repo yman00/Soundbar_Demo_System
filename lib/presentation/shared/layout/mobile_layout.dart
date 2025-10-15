@@ -54,41 +54,6 @@ class MobileLayout extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10),
-                    Expanded(
-                      flex: 2,
-                      child:  Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Color(0xFFDDDDDD), width: 1),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child:  Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.bluetooth_rounded),
-                                    Text('Connected Sony Devices')
-                                  ],
-                                ),
-                              ),
-                              connectionContent,
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
                     // Expanded(
                     //   flex: 2,
                     //   child:  Container(
@@ -107,17 +72,52 @@ class MobileLayout extends StatelessWidget {
                     //     child: Padding(
                     //       padding: const EdgeInsets.all(10.0),
                     //       child:  Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
                     //         children: [
-                    //           Text('Demo Content Library'),
-                    //           SizedBox(height: 5),
-                    //           contentLibraryMenu,
-                    //           mediaContent
+                    //           Container(
+                    //             padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                    //             child: Row(
+                    //               children: [
+                    //                 Icon(Icons.bluetooth_rounded),
+                    //                 Text('Connected Sony Devices')
+                    //               ],
+                    //             ),
+                    //           ),
+                    //           connectionContent,
                     //         ],
                     //       ),
                     //     ),
                     //   ),
                     // ),
+                    SizedBox(height: 10),
+                    Expanded(
+                      flex: 2,
+                      child:  Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Color(0xFFDDDDDD), width: 1),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child:  Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Demo Content Library'),
+                              SizedBox(height: 5),
+                              contentLibraryMenu,
+                              mediaContent
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
