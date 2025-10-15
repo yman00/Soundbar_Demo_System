@@ -28,7 +28,7 @@ class TabletLandscapeLayout extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CustomAppbar(
-              title: 'Sony Logo', 
+              title: 'SONY', 
               subTitle: 'Experience Sony premium audio quality.'
               ),
               SizedBox(height: 10,),
@@ -75,23 +75,20 @@ class TabletLandscapeLayout extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 10,),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Color(0xFFDDDDDD), width: 1),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.05),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: mediaPlayerContent,
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Color(0xFFDDDDDD), width: 1),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
                           ),
+                          child: mediaPlayerContent,
                         ),
                       ],
                     ),
