@@ -40,10 +40,10 @@ class _ChewieVideoPlayerSectionState extends State<ChewieVideoPlayerSection> {
       allowMuting: true,
       showControls: true,
       materialProgressColors: ChewieProgressColors(
-        playedColor: Colors.red,
-        handleColor: Colors.redAccent,
-        backgroundColor: Colors.grey,
-        bufferedColor: Colors.lightGreen,
+        playedColor: const Color.fromARGB(255, 165, 21, 10),
+        handleColor: Color.fromARGB(255, 165, 21, 10),
+        backgroundColor: const Color.fromARGB(255, 230, 230, 230),
+        bufferedColor: const Color.fromARGB(255, 179, 179, 179),
       ),
     );
   }
@@ -78,8 +78,11 @@ class _ChewieVideoPlayerSectionState extends State<ChewieVideoPlayerSection> {
               child: InkWell(
                 onTap: widget.onExit,
                 child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.close, color: Colors.white),
+                  padding: EdgeInsets.all(5.0),
+                  child: Icon(
+                    Icons.close, color: Colors.white,
+                    size: 20,
+                  ),
                 ),
               ),
             ),
